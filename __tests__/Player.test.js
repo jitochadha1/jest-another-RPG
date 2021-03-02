@@ -3,7 +3,7 @@ const { exp } = require('prelude-ls');
 const Player = require('../lib/Player');
 const Potion = require('../__mocks__/Potion.js');
 jest.mock('../lib/Potion');
-console.log(new Potion())
+
 
 test('creates a player object', () => {
     const player = new Player('Dave');
@@ -60,4 +60,21 @@ test("subtracts from player's health", () => {
 
     player.reduceHealth(2342323);
     expect(player.health).toBe(0);
+});
+
+test("gets player's attack value", () => {
+    const player = new Player('Dave');
+    player.strength = 10;
+
+    expect(player.getAttackValue()).toBeGreaterThanOrEqual(5);
+    expect(player.getAttackValue()).toBeLessThanOrEqual(15);
+});
+
+test('adds a potion to the inventory', () => {
+    const player = new Player('Dave');
+    const oldCount = player.inventory.length;
+
+    player.addPotion(new Potion());
+
+    expect(player.inventory.length).toBeGreaterThan(oldCount);
 });
